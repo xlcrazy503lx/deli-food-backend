@@ -2,17 +2,20 @@ package com.delifood.app.model.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-@Entity(name = "categories")
-public class Category implements Serializable {
-    private static final long serialVersionUID = 3094252649173768711L;
+@Entity(name = "sub_categories")
+public class SubCategory implements Serializable {
 
-    public Category() {
+    public SubCategory() {
     }
+
+    public SubCategory(String name, String description, String state) {
+        this.name = name;
+        this.description = description;
+        this.state = state;
+    }
+
+    private static final long serialVersionUID = 7789921550525922897L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +31,6 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private String state;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "category_id")
-    private List<SubCategory> subCategories = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -62,14 +62,6 @@ public class Category implements Serializable {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public List<SubCategory> getSubCategories() {
-        return subCategories;
-    }
-
-    public void setSubCategories(List<SubCategory> subCategories) {
-        this.subCategories = subCategories;
     }
 
 }
