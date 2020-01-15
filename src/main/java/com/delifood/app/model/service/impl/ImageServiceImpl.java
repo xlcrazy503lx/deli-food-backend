@@ -21,7 +21,12 @@ public class ImageServiceImpl implements IImageService {
 
     @Override
     public Image findByTableReference(Long idReference, String tableReference) {
-        return imageDao.findByIdReferenceAndTableReference(idReference,tableReference);
+        Image image = imageDao.findByIdReferenceAndTableReference(idReference,tableReference);
+        if (image == null){
+            image = new Image();
+            image.setUnavailable("https://pngimage.net/wp-content/uploads/2018/06/imagen-no-disponible-png-1.png");
+        }
+        return image;
     }
 
     @Override

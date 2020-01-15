@@ -28,9 +28,15 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private String state;
 
+    @Transient
+    private String subCategory = "No";
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "category_id")
     private List<SubCategory> subCategories = new ArrayList<>();
+
+    @Transient
+    private Image image;
 
     public Long getId() {
         return id;
@@ -72,4 +78,19 @@ public class Category implements Serializable {
         this.subCategories = subCategories;
     }
 
+    public String getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(String subCategory) {
+        this.subCategory = subCategory;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 }

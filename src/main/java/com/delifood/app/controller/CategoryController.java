@@ -4,6 +4,7 @@ import com.delifood.app.model.entity.Category;
 import com.delifood.app.model.entity.SubCategory;
 import com.delifood.app.model.service.ICategoryService;
 import com.delifood.app.model.service.IImageService;
+import com.delifood.app.response.CategoryListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +17,22 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
+    @Autowired
+    private IImageService imageService;
+
     @GetMapping("/")
-    public List<Category> findAll(){
-        return categoryService.findAll();
+    public CategoryListResponse findAll(){
+        List<Category> categoryList = categoryService.findAll();
+        categoryList.forEach(c -> {
+            if (c.getSubCategories().size()>0){
+                c.setSubCategory("Si");
+                c.getSubCategories().forEach(s -> {
+                    s.setImage(imageService.findByTableReference(s.getId(),"sub_categories"));
+                });
+            }
+            c.setImage(imageService.findByTableReference(c.getId(),"categories"));
+        });
+        return new CategoryListResponse(categoryList);
     };
 
     @GetMapping("/{id}")

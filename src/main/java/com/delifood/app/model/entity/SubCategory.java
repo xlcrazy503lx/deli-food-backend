@@ -9,11 +9,6 @@ public class SubCategory implements Serializable {
     public SubCategory() {
     }
 
-    public SubCategory(String name, String description, String state) {
-        this.name = name;
-        this.description = description;
-        this.state = state;
-    }
 
     private static final long serialVersionUID = 7789921550525922897L;
 
@@ -31,6 +26,8 @@ public class SubCategory implements Serializable {
     @Column(nullable = false)
     private String state;
 
+    @Transient
+    private Image image;
 
     public Long getId() {
         return id;
@@ -64,4 +61,11 @@ public class SubCategory implements Serializable {
         this.state = state;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 }
