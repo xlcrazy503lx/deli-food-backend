@@ -2,13 +2,13 @@ package com.delifood.app.model.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "sub_categories")
 public class SubCategory implements Serializable {
 
     public SubCategory() {
     }
-
 
     private static final long serialVersionUID = 7789921550525922897L;
 
@@ -25,6 +25,12 @@ public class SubCategory implements Serializable {
 
     @Column(nullable = false)
     private String state;
+
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "sub_categories_menus", joinColumns = @JoinColumn(name = "sub_category_id"), inverseJoinColumns = @JoinColumn(name = "menu_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"sub_category_id","menu_id"})})
+    private List<Menu> menusSubCategories;
 
     @Transient
     private Image image;
@@ -67,5 +73,13 @@ public class SubCategory implements Serializable {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public List<Menu> getMenusSubCategories() {
+        return menusSubCategories;
+    }
+
+    public void setMenusSubCategories(List<Menu> menusSubCategories) {
+        this.menusSubCategories = menusSubCategories;
     }
 }

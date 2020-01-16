@@ -19,9 +19,9 @@ public class SubCategoryController {
     @Autowired
     private ISubCategoryService subCategoryService;
 
-    @PostMapping("/{id}")
-    public Category addSubCategory(@RequestBody SubCategory subCategory, @PathVariable Long id){
-        return categoryService.addSubCategory(id,subCategory);
+    @PostMapping("/{idCategory}")
+    public Category addSubCategory(@RequestBody SubCategory subCategory, @PathVariable Long idCategory){
+        return categoryService.addSubCategory(idCategory,subCategory);
     }
     @GetMapping("/")
     public List<SubCategory> findAll(){

@@ -3,9 +3,7 @@ package com.delifood.app.model.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity(name = "categories")
 public class Category implements Serializable {
@@ -34,6 +32,12 @@ public class Category implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "category_id")
     private List<SubCategory> subCategories = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "categories_menus", joinColumns = @JoinColumn(name = "category_id"), inverseJoinColumns = @JoinColumn(name = "menu_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"category_id","menu_id"})})
+    private List<Menu> menusCategories;
+
 
     @Transient
     private Image image;
@@ -92,5 +96,13 @@ public class Category implements Serializable {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public List<Menu> getMenusCategories() {
+        return menusCategories;
+    }
+
+    public void setMenusCategories(List<Menu> menusCategories) {
+        this.menusCategories = menusCategories;
     }
 }
